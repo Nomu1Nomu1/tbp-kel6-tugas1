@@ -1,5 +1,5 @@
 public class main {
-    void RWTRS(){
+    void RWTS(){
         
     }
     public static void main(String[] args) {
