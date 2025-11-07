@@ -1,10 +1,7 @@
 public class PemesananTiketTransportasi {
-<<<<<<< HEAD
     static class penumpang {
         
     }
-    
-=======
     // Kelas untuk menyimpan data penumpang
     static class Penumpang {
         
@@ -65,7 +62,6 @@ public class PemesananTiketTransportasi {
     }
 
     // Switch case semua fitur
->>>>>>> bd6122d94d359ac7ac5f852195ed3e52c8cbd9a1
     public static void main(String[] args) {
         
     }    
