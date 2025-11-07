@@ -1,8 +1,8 @@
 public class main {
-    void apakek(){
+    void praktek(){
         
     }
     public static void main(String[] args) {
-        
+        System.out.println("tino jomok");
     }
 }
