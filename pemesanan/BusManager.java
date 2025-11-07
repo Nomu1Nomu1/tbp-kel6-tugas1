@@ -42,4 +42,13 @@ public class BusManager {
     public void showDaftarTrx() {
         
     }
+
+    // Scanner 
+    public Scanner getScanner() {
+        return Scanner;
+    }
+
+    public boolean isExit(int pilihan) {
+        return pilihan == 4;
+    }
 }
