@@ -1,5 +1,5 @@
 public class main {
-    void praktek(){
+    void RWTRS(){
         
     }
     public static void main(String[] args) {
