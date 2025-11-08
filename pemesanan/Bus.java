@@ -1,14 +1,39 @@
 package pemesanan;
+
 import java.util.ArrayList;
 
 public class Bus {
-    // Inisialisasi namaBus, jenisBus, asalKeberangkatan, tujuanKeberangkatan, harga, tanggalKeberangkatan, kapasistas, kursiTerisi
-    // lalu dimasukkan di function public Bus(), misal public Bus(String namaBus, ...)
+    // Inisialisasi namaBus, jenisBus, asalKeberangkatan, tujuanKeberangkatan,
+    // harga, tanggalKeberangkatan, kapasistas, kursiTerisi
+    // lalu dimasukkan di function public Bus(), misal public Bus(String namaBus,
+    // ...)
+    private String namaBus;
+    private String jenisBus;
+    private String asalKeberangkatan;
+    private String tujuanKeberangkatan;
+    private double harga;
+    private String tanggalKeberangkatan;
+    private int kapasitas;
+    private ArrayList<Integer> kursiTerisi;
 
-    public Bus() {
-
+    public Bus(String namaBus, String jenisBus, String asalKeberangkatan, String tujuanKeberangkatan, double harga,
+            String tanggalKeberangkatan, int kapasistas) {
+        this.namaBus = namaBus;
+        this.jenisBus = jenisBus;
+        this.asalKeberangkatan = asalKeberangkatan;
+        this.tujuanKeberangkatan = tujuanKeberangkatan;
+        this.harga = harga;
+        this.tanggalKeberangkatan = tanggalKeberangkatan;
+        this.kapasitas = kapasistas;
+        this.kursiTerisi = new ArrayList<>();
     }
     // Getter
+    public String getNamaBus() { return namaBus; }
+    public String getJenisBus() { return jenisBus; }
+    public String getAsalKeberangkatan() { return asalKeberangkatan; }
+    public String getTujuan() { return tujuanKeberangkatan; }
+    public double getHarga() { return harga; }
+    public String getTanggalKeberangkatan() { return tanggalKeberangkatan; }
 
     // Getter buat yang dibawah ini biar gampang aja hehe
     // return nilai kursi yang tersedia
