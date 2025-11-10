@@ -53,6 +53,10 @@ public class Bus {
         return tanggalKeberangkatan;
     }
 
+    public int getKapasitas() {
+        return kapasitas;
+    }
+
     // Getter buat yang dibawah ini biar gampang aja hehe
     // return nilai kursi yang tersedia
     public int getKursiTersedia() {
