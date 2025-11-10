@@ -24,7 +24,7 @@ public class Transaksi {
     // Function untuk menghitung total transaksi dan harga sudah termasuk pajak dan
     // juga user mau menambah paket makan
     private void hitungTotal() {
-        double hargaMakanan = paketMakan ? 35000 : 0;
+        double hargaMakanan = paketMakan ? 35000.0 : 0.0;
         double subTotal = busDipilih.getHarga() + hargaMakanan;
         this.pajak = subTotal * 0.11;
         this.totalHarga = subTotal + pajak;
