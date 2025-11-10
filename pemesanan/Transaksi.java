@@ -63,5 +63,6 @@ public class Transaksi {
     public String getRute() {
         String a = busDipilih.getAsalKeberangkatan().length() > 8 ? busDipilih.getAsalKeberangkatan().substring(0, 8) + "." : busDipilih.getAsalKeberangkatan();
         String b = busDipilih.getTujuan().length() > 8 ? busDipilih.getTujuan().substring(0, 8) + "." : busDipilih.getTujuan();
+        return a + " to " + b;
     }
 }
