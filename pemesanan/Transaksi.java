@@ -1,7 +1,8 @@
 package pemesanan;
 
 public class Transaksi {
-    // Inisialisasi namaPelanggan, busDipilih, nomorKursi, paketMakan, totalHarga, pajak, idTransaksi
+    // Inisialisasi namaPelanggan, busDipilih, nomorKursi, paketMakan, totalHarga,
+    // pajak, idTransaksi
     // Kurang lebih sama seperti pada Bus.java
     private String namaPelanggan;
     private Bus busDipilih;
@@ -20,17 +21,47 @@ public class Transaksi {
         hitungTotal();
     }
 
-    // Function untuk menghitung total transaksi dan harga sudah termasuk pajak dan juga user mau menambah paket makan
+    // Function untuk menghitung total transaksi dan harga sudah termasuk pajak dan
+    // juga user mau menambah paket makan
     private void hitungTotal() {
-
+        double hargaMakanan = paketMakan ? 35000 : 0;
+        double subTotal = busDipilih.getHarga() + hargaMakanan;
+        this.pajak = subTotal * 0.11;
+        this.totalHarga = subTotal + pajak;
     }
 
     // Getter
-    public String getIdTransaksi() { return idTransaksi; }
-    
+    public String getIdTransaksi() {
+        return idTransaksi;
+    }
+
+    public String getNamaPelanggan() {
+        return namaPelanggan;
+    }
+
+    public Bus getBusDipilih() {
+        return busDipilih;
+    }
+
+    public int getNomorKursi() {
+        return nomorKursi;
+    }
+
+    public boolean isPaketMakan() {
+        return paketMakan;
+    }
+
+    public double getPajak() {
+        return pajak;
+    }
+
+    public double getTotal() {
+        return totalHarga;
+    }
 
     // Membuat rute
     public String getRute() {
-        
+        String a = busDipilih.getAsalKeberangkatan().length() > 8 ? busDipilih.getAsalKeberangkatan().substring(0, 8) + "." : busDipilih.getAsalKeberangkatan();
+        String b = busDipilih.getTujuan().length() > 8 ? busDipilih.getTujuan().substring(0, 8) + "." : busDipilih.getTujuan();
     }
 }
