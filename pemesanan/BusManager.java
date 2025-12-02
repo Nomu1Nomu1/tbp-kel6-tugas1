@@ -3,6 +3,8 @@ package pemesanan;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 public class BusManager {
     private ArrayList<Bus> daftarBus;
@@ -54,6 +56,30 @@ public class BusManager {
         System.out.print("Masukkan nama pelanggan: ");
         String nama = scanner.nextLine();
 
+        System.out.println("Masukkan tanggal keberangkatan (YYYY-MM-DD): ");
+        String tanggalKeberangkatan = scanner.nextLine();
+
+        LocalDate today = LocalDate.now();
+        LocalDate tanggalUser;
+        try {
+            tanggalUser = LocalDate.parse(tanggalKeberangkatan, DateTimeFormatter.ISO_LOCAL_DATE);
+        } catch (DateTimeParseException e) {
+            System.out.println("Format tanggal salah! Gunakan YYYY-MM-DD.");
+            return;
+        }
+        ArrayList<Bus> busTersedia = new ArrayList<>();
+        for (Bus b : daftarBus) {
+            LocalDate tanggalBus = LocalDate.parse(b.getTanggalKeberangkatan());
+            if (!tanggalBus.isBefore(tanggalUser) && b.getKursiTersedia() > 0) {
+                busTersedia.add(b);
+            }
+        }
+
+        if (busTersedia.isEmpty()) {
+            System.out.println("Maaf, tidak ada bus tersedia pada tanggal " + tanggalKeberangkatan);
+            return;
+        }
+
         showBus();
         System.out.print("Pilih nomor bus (1-" + daftarBus.size() + "): ");
         int pilihan = scanner.nextInt() - 1;
@@ -65,19 +91,11 @@ public class BusManager {
         }
 
         Bus bus = daftarBus.get(pilihan);
-        System.out.println("Masdukkan tanggal keberangkatan (YYYY-MM-DD): ");
-        String tanggalKeberangkatan = scanner.nextLine();
-        LocalDate today = LocalDate.now();
-        LocalDate tanggalBus = LocalDate.parse(bus.getTanggalKeberangkatan());
-        if (!tanggalBus.isAfter(today)) {
-            System.out.println("Maaf, tiket untuk bus ini sudah melewati tanggal keberangkatan!");
-            return;
-        }
         if (bus.getKursiTersedia() <= 0) {
             System.out.println("Maaf, bus " + bus.getNamaBus() + " sudah penuh!");
             return;
         }
-        //h
+        // h
 
         System.out.println("\nDetail Bus Dipilih:");
         System.out.println("Nama Bus       : " + bus.getNamaBus());
@@ -99,9 +117,9 @@ public class BusManager {
 
             if (!bus.isKursiAvailable(kursi)) {
                 System.out.println("Kursi tidak tersedia atau nomor tidak valid! Pilih lagi.");
-                continue; 
+                continue;
             }
-            break; 
+            break;
         }
 
         System.out.print("Tambah paket makan? (y/n): ");
@@ -156,7 +174,8 @@ public class BusManager {
         System.out.println("-".repeat(50));
         System.out.printf("Harga Dasar    : Rp%,.0f%n", t.getBusDipilih().getHarga());
         System.out.printf("Paket Makan    : Rp%,.0f%n", t.isPaketMakan() ? 35000.0 : 0.0);
-        System.out.printf("Subtotal       : Rp%,.0f%n", t.getBusDipilih().getHarga() + (t.isPaketMakan() ? 35000.0 : 0.0));
+        System.out.printf("Subtotal       : Rp%,.0f%n",
+                t.getBusDipilih().getHarga() + (t.isPaketMakan() ? 35000.0 : 0.0));
         System.out.printf("Pajak (11%%)    : Rp%,.0f%n", t.getPajak());
         System.out.println("=".repeat(50));
         System.out.printf("TOTAL BAYAR    : Rp%,.0f%n", t.getTotal());
