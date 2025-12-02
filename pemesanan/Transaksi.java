@@ -1,9 +1,6 @@
 package pemesanan;
 
 public class Transaksi {
-    // Inisialisasi namaPelanggan, busDipilih, nomorKursi, paketMakan, totalHarga,
-    // pajak, idTransaksi
-    // Kurang lebih sama seperti pada Bus.java
     private String namaPelanggan;
     private Bus busDipilih;
     private int nomorKursi;
@@ -21,8 +18,6 @@ public class Transaksi {
         hitungTotal();
     }
 
-    // Function untuk menghitung total transaksi dan harga sudah termasuk pajak dan
-    // juga user mau menambah paket makan
     private void hitungTotal() {
         double hargaMakanan = paketMakan ? 35000.0 : 0.0;
         double subTotal = busDipilih.getHarga() + hargaMakanan;
@@ -30,7 +25,6 @@ public class Transaksi {
         this.totalHarga = subTotal + pajak;
     }
 
-    // Getter
     public String getIdTransaksi() {
         return idTransaksi;
     }
@@ -59,7 +53,6 @@ public class Transaksi {
         return totalHarga;
     }
 
-    // Membuat rute
     public String getRute() {
         String a = busDipilih.getAsalKeberangkatan().length() > 8 ? busDipilih.getAsalKeberangkatan().substring(0, 8) + "." : busDipilih.getAsalKeberangkatan();
         String b = busDipilih.getTujuan().length() > 8 ? busDipilih.getTujuan().substring(0, 8) + "." : busDipilih.getTujuan();
