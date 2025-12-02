@@ -5,9 +5,6 @@ import java.util.Scanner;
 import java.time.LocalDate;
 
 public class BusManager {
-    // Inisialisasi daftarBus menggunakan ArrayList, daftarTransksi menggunakan
-    // ArrayList, Scanner, dan idCounter
-    // Sama seperti yang di Bus.java, cuman nggak dimasukin di dalam '()'
     private ArrayList<Bus> daftarBus;
     private ArrayList<Transaksi> daftarTransaksi;
     private Scanner scanner;
@@ -21,9 +18,6 @@ public class BusManager {
         inisialisasiDataBus();
     }
 
-    // Inisialisasi data bus seperti nama bus, jenis bus, asal keberangkatan, Tujuan
-    // keberangkatan, harga, tanggal keberangkatan, dan kapasitas penumpang kemudian
-    // ditambahkan ke dalam ArrayList
     private void inisialisasiDataBus() {
         daftarBus.add(new Bus("Sumber Rahayu", "Ekonomi", "Surabaya", "Yogyakarta", 100000, "2025-12-24", 40));
         daftarBus.add(new Bus("Gunung Harta", "Sleeper", "Jakarta", "Bali", 450000, "2025-12-25", 16));
@@ -33,7 +27,6 @@ public class BusManager {
         daftarBus.add(new Bus("Rosalia Indah", "Eksekutif", "Semarang", "Surabaya", 200000, "2026-01-08", 24));
     }
 
-    // Membuat menu utama untuk CLI
     public void mainMenu() {
         System.out.println("SiBuder OO");
         System.out.println("1. Lihat Daftar Bus Tersedia");
@@ -43,7 +36,6 @@ public class BusManager {
         System.out.print("Pilih menu (1-4): ");
     }
 
-    // Melihat daftar bus
     public void showBus() {
         System.out.println("Daftar Bus Tersedia");
         System.out.println(" - ".repeat(50));
@@ -57,7 +49,6 @@ public class BusManager {
         System.out.println(" - ".repeat(50));
     }
 
-    // Memesan Tiket
     public void pesanTiket() {
         System.out.println("\n--- PROSES PEMESANAN TIKET ---");
         System.out.print("Masukkan nama pelanggan: ");
@@ -148,7 +139,6 @@ public class BusManager {
         }
     }
 
-    // Show nota
     public void showNota(Transaksi t) {
         System.out.println("\n" + "=".repeat(50));
         System.out.println("            NOTA PEMESANAN TIKET BUS");
@@ -173,7 +163,6 @@ public class BusManager {
         System.out.println("Terima kasih atas pemesanannya!");
     }
 
-    // Melihat daftar transaksi
     public void showDaftarTrx() {
         if (daftarTransaksi.isEmpty()) {
             System.out.println("\nBelum ada transaksi.");
@@ -201,7 +190,6 @@ public class BusManager {
         System.out.println("Total transaksi: " + daftarTransaksi.size());
     }
 
-    // Scanner
     public Scanner getScanner() {
         return scanner;
     }
