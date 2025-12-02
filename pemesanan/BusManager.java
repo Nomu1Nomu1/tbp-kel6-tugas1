@@ -2,6 +2,7 @@ package pemesanan;
 
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.time.LocalDate;
 
 public class BusManager {
     // Inisialisasi daftarBus menggunakan ArrayList, daftarTransksi menggunakan
@@ -73,6 +74,14 @@ public class BusManager {
         }
 
         Bus bus = daftarBus.get(pilihan);
+        System.out.println("Masdukkan tanggal keberangkatan (YYYY-MM-DD): ");
+        String tanggalKeberangkatan = scanner.nextLine();
+        LocalDate today = LocalDate.now();
+        LocalDate tanggalBus = LocalDate.parse(bus.getTanggalKeberangkatan());
+        if (!tanggalBus.isAfter(today)) {
+            System.out.println("Maaf, tiket untuk bus ini sudah melewati tanggal keberangkatan!");
+            return;
+        }
         if (bus.getKursiTersedia() <= 0) {
             System.out.println("Maaf, bus " + bus.getNamaBus() + " sudah penuh!");
             return;
@@ -130,7 +139,7 @@ public class BusManager {
         if (konfirm.equals("y") || konfirm.equals("ya")) {
             bus.pesanKursi(kursi);
             String id = "TKT" + idCounter++;
-            Transaksi t = new Transaksi(nama, bus, kursi, paketMakan, id);
+            Transaksi t = new Transaksi(nama, bus, kursi, paketMakan, id, bus.getTanggalKeberangkatan());
             daftarTransaksi.add(t);
             showNota(t);
             System.out.println("\nPemesanan berhasil!");

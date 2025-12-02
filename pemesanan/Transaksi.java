@@ -11,13 +11,15 @@ public class Transaksi {
     private double totalHarga;
     private double pajak;
     private String idTransaksi;
+    private String tanggalKeberangkatan;
 
-    public Transaksi(String nama, Bus bus, int kursi, boolean makan, String id) {
+    public Transaksi(String nama, Bus bus, int kursi, boolean makan, String id, String tanggalKeberangkatan) {
         this.namaPelanggan = nama;
         this.busDipilih = bus;
         this.nomorKursi = kursi;
         this.paketMakan = makan;
         this.idTransaksi = id;
+        this.tanggalKeberangkatan = tanggalKeberangkatan;
         hitungTotal();
     }
 
@@ -37,6 +39,10 @@ public class Transaksi {
 
     public String getNamaPelanggan() {
         return namaPelanggan;
+    }
+
+    public String getTanggalKeberangkatan() {
+        return tanggalKeberangkatan;
     }
 
     public Bus getBusDipilih() {
