@@ -60,19 +60,18 @@ public class BusManager {
         String tanggalKeberangkatan = scanner.nextLine();
 
         LocalDate today = LocalDate.now();
-        LocalDate tanggalUser;
-        try {
-            tanggalUser = LocalDate.parse(tanggalKeberangkatan, DateTimeFormatter.ISO_LOCAL_DATE);
-        } catch (DateTimeParseException e) {
-            System.out.println("Format tanggal salah! Gunakan YYYY-MM-DD.");
-            return;
-        }
         ArrayList<Bus> busTersedia = new ArrayList<>();
         for (Bus b : daftarBus) {
             LocalDate tanggalBus = LocalDate.parse(b.getTanggalKeberangkatan());
-            if (!tanggalBus.isBefore(tanggalUser) && b.getKursiTersedia() > 0) {
+            if (!tanggalBus.isBefore(today.plusDays(1)) && b.getKursiTersedia() > 0) {
                 busTersedia.add(b);
             }
+        }
+
+        // Jika tidak ada bus yang tersedia
+        if (busTersedia.isEmpty()) {
+            System.out.println("Maaf, tidak ada bus tersedia minimal H+1 dari sekarang.");
+            return;
         }
 
         if (busTersedia.isEmpty()) {
@@ -80,22 +79,27 @@ public class BusManager {
             return;
         }
 
-        showBus();
-        System.out.print("Pilih nomor bus (1-" + daftarBus.size() + "): ");
+        System.out.println("\nDaftar Bus Tersedia (H+1 ke atas):");
+        System.out.println(" - ".repeat(50));
+        System.out.printf("%-3s %-15s %-12s %-10s %-12s %-12s %-10s %-10s%n",
+                "No", "Nama Bus", "Jenis", "Asal", "Tujuan", "Harga", "Tanggal", "Sisa Kursi");
+        System.out.println(" - ".repeat(50));
+        for (int i = 0; i < busTersedia.size(); i++) {
+            System.out.printf("%-3d %s%n", (i + 1), busTersedia.get(i));
+        }
+        System.out.println(" - ".repeat(50));
+
+        // Pilih bus
+        System.out.print("Pilih nomor bus (1-" + busTersedia.size() + "): ");
         int pilihan = scanner.nextInt() - 1;
         scanner.nextLine();
 
-        if (pilihan < 0 || pilihan >= daftarBus.size()) {
+        if (pilihan < 0 || pilihan >= busTersedia.size()) {
             System.out.println("Pilihan bus tidak valid!");
             return;
         }
 
-        Bus bus = daftarBus.get(pilihan);
-        if (bus.getKursiTersedia() <= 0) {
-            System.out.println("Maaf, bus " + bus.getNamaBus() + " sudah penuh!");
-            return;
-        }
-        // h
+        Bus bus = busTersedia.get(pilihan);
 
         System.out.println("\nDetail Bus Dipilih:");
         System.out.println("Nama Bus       : " + bus.getNamaBus());
