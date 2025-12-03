@@ -35,8 +35,9 @@ public class Transaksi {
     }
 
     private void hitungTotal() {
-        double hargaMakanan = paketMakan ? 35000.0 : 0.0;
-        double subTotal = busDipilih.getHarga() + hargaMakanan;
+        int jumlahKursi = daftarKursi.size();
+        double hargaMakanan = paketMakan ? 35000.0 * jumlahKursi : 0.0;
+        double subTotal = (busDipilih.getHarga() * jumlahKursi) + hargaMakanan;
         this.pajak = subTotal * 0.11;
         this.totalHarga = subTotal + pajak;
     }

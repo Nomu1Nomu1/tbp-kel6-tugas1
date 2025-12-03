@@ -17,6 +17,7 @@ public class PemesananTiketTransportasi {
                 case 1 -> manager.showBus();
                 case 2 -> manager.pesanTiket();
                 case 3 -> manager.showDaftarTrx();
+                case 4 -> manager.tambahBus();
                 case 5 -> System.out.println("Terima kasih telah menggunakan layanan kami");
                 default -> System.out.println("Invalid input");
             }
