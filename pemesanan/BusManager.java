@@ -33,7 +33,8 @@ public class BusManager {
         System.out.println("2. Pesan Tiket");
         System.out.println("3. Lihat Daftar Transaksi");
         System.out.println("4. Keluar");
-        System.out.print("Pilih menu (1-4): ");
+        System.out.println("5. Tambah Bus Baru"); //===========perubahan============
+        System.out.print("Pilih menu (1-5): ");
     }
 
     public void showBus() {
@@ -248,6 +249,64 @@ public class BusManager {
         System.out.println("-".repeat(90));
         System.out.println("Total transaksi: " + daftarTransaksi.size());
     }
+
+    //Method Buat Nambah Bus
+    public void tambahBus() {
+    System.out.println("\n--- TAMBAH BUS BARU ---");
+    System.out.print("Nama Bus: ");
+    String namaBus = scanner.nextLine();
+
+    System.out.print("Jenis Bus (Ekonomi/Sleeper/Eksekutif): ");
+    String jenisBus = scanner.nextLine();
+
+    System.out.print("Asal Keberangkatan: ");
+    String asal = scanner.nextLine();
+
+    System.out.print("Tujuan Keberangkatan: ");
+    String tujuan = scanner.nextLine();
+
+    double harga = 0;
+    while (true) {
+        System.out.print("Harga tiket: ");
+        try {
+            harga = Double.parseDouble(scanner.nextLine().trim());
+            break;
+        } catch (NumberFormatException e) {
+            System.out.println("Input harus angka! Silakan coba lagi.");
+        }
+    } //=====perubahan======
+
+    String tanggal = "";
+    while (true) {
+        System.out.print("Tanggal keberangkatan (YYYY-MM-DD): ");
+        tanggal = scanner.nextLine();
+        try {
+            // cek format tanggal
+            LocalDate.parse(tanggal, DateTimeFormatter.ISO_LOCAL_DATE);
+            break;
+        } catch (DateTimeParseException e) {
+            System.out.println("Format tanggal salah! Gunakan YYYY-MM-DD.");
+        }
+    }
+
+    int kapasitas = 0;
+    while (true) {
+        System.out.print("Kapasitas bus: ");
+        try {
+            kapasitas = Integer.parseInt(scanner.nextLine().trim());
+            if (kapasitas > 0) break;
+        } catch (NumberFormatException e) {
+            System.out.println("Input harus angka! Silakan coba lagi.");
+        }
+    }
+
+    // Tambahkan bus baru ke daftar
+    Bus busBaru = new Bus(namaBus, jenisBus, asal, tujuan, harga, tanggal, kapasitas);
+    daftarBus.add(busBaru);
+
+    System.out.println("Bus baru berhasil ditambahkan!");
+}
+
 
     public Scanner getScanner() {
         return scanner;
