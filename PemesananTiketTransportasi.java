@@ -15,10 +15,11 @@ public class PemesananTiketTransportasi {
 
             switch (pilihan) {
                 case 1 -> manager.showBus();
-                case 2 -> manager.pesanTiket();
-                case 3 -> manager.showDaftarTrx();
-                case 4 -> System.out.println("Terima kasih telah menggunakan layanan kami");
-                case 5 -> manager.tambahBus(); //====perubahan====
+                case 2 -> manager.pesanTiketLangsung();
+                case 3 -> manager.cariRute();
+                case 4 -> manager.showDaftarTrx();
+                case 5 -> System.out.println("Terima kasih telah menggunakan layanan kami");
+                case 6 -> manager.tambahBus();
                 default -> System.out.println("Invalid input");
             }
         } while (!manager.isExit(pilihan));
