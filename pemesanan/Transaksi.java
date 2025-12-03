@@ -1,19 +1,33 @@
 package pemesanan;
 
+import java.util.ArrayList;
+
 public class Transaksi {
-    private String namaPelanggan;
+    private ArrayList<String> daftarNamaPenumpang;
     private Bus busDipilih;
-    private int nomorKursi;
+    private ArrayList<Integer> daftarKursi;
     private boolean paketMakan;
-    private double totalHarga;
+    private double total;
     private double pajak;
     private String idTransaksi;
     private String tanggalKeberangkatan;
 
-    public Transaksi(String nama, Bus bus, int kursi, boolean makan, String id, String tanggalKeberangkatan) {
-        this.namaPelanggan = nama;
+    public Transaksi(ArrayList<String> namaList, Bus bus, ArrayList<Integer> kursiList, boolean makan, String id, String tanggalKeberangkatan) {
+        this.daftarNamaPenumpang = new ArrayList<>(namaList);
         this.busDipilih = bus;
-        this.nomorKursi = kursi;
+        this.daftarKursi = new ArrayList<>(kursiList);
+        this.paketMakan = makan;
+        this.idTransaksi = id;
+        this.tanggalKeberangkatan = tanggalKeberangkatan;
+        hitungTotal();
+    }
+
+    public Transaksi(String nama, Bus bus, int kursi, boolean makan, String id, String tanggalKeberangkatan) {
+        this.daftarNamaPenumpang = new ArrayList<>();
+        this.daftarNamaPenumpang.add(nama);
+        this.busDipilih = bus;
+        this.daftarKursi = new ArrayList<>();
+        this.daftarKursi.add(kursi);
         this.paketMakan = makan;
         this.idTransaksi = id;
         this.tanggalKeberangkatan = tanggalKeberangkatan;
@@ -21,10 +35,11 @@ public class Transaksi {
     }
 
     private void hitungTotal() {
-        double hargaMakanan = paketMakan ? 35000.0 : 0.0;
-        double subTotal = busDipilih.getHarga() + hargaMakanan;
+        int jumlahKursi = daftarKursi.size();
+        double hargaMakanan = paketMakan ? 35000.0 * jumlahKursi : 0.0;
+        double subTotal = (busDipilih.getHarga() * jumlahKursi) + hargaMakanan;
         this.pajak = subTotal * 0.11;
-        this.totalHarga = subTotal + pajak;
+        this.total = subTotal + pajak;
     }
 
     public String getIdTransaksi() {
@@ -32,7 +47,11 @@ public class Transaksi {
     }
 
     public String getNamaPelanggan() {
-        return namaPelanggan;
+        return daftarNamaPenumpang.isEmpty() ? "" : daftarNamaPenumpang.get(0);
+    }
+
+    public ArrayList<String> getDaftarNamaPenumpang() {
+        return daftarNamaPenumpang;
     }
 
     public String getTanggalKeberangkatan() {
@@ -44,7 +63,15 @@ public class Transaksi {
     }
 
     public int getNomorKursi() {
-        return nomorKursi;
+        return daftarKursi.isEmpty() ? 0 : daftarKursi.get(0);
+    }
+
+    public ArrayList<Integer> getDaftarKursi() {
+        return daftarKursi;
+    }
+
+    public int getJumlahKursi() {
+        return daftarKursi.size();
     }
 
     public boolean isPaketMakan() {
@@ -56,7 +83,7 @@ public class Transaksi {
     }
 
     public double getTotal() {
-        return totalHarga;
+        return total;
     }
 
     public String getRute() {
