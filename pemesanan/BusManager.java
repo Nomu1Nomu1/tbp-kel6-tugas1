@@ -67,7 +67,6 @@ public class BusManager {
             }
         }
 
-        // Jika tidak ada bus yang tersedia
         if (busTersedia.isEmpty()) {
             System.out.println("Maaf, tidak ada bus tersedia minimal H+1 dari sekarang.");
             return;

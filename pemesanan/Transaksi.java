@@ -7,7 +7,7 @@ public class Transaksi {
     private Bus busDipilih;
     private ArrayList<Integer> daftarKursi;
     private boolean paketMakan;
-    private double totalHarga;
+    private double total;
     private double pajak;
     private String idTransaksi;
     private String tanggalKeberangkatan;
@@ -39,7 +39,7 @@ public class Transaksi {
         double hargaMakanan = paketMakan ? 35000.0 * jumlahKursi : 0.0;
         double subTotal = (busDipilih.getHarga() * jumlahKursi) + hargaMakanan;
         this.pajak = subTotal * 0.11;
-        this.totalHarga = subTotal + pajak;
+        this.total = subTotal + pajak;
     }
 
     public String getIdTransaksi() {
@@ -83,7 +83,7 @@ public class Transaksi {
     }
 
     public double getTotal() {
-        return totalHarga;
+        return total;
     }
 
     public String getRute() {
