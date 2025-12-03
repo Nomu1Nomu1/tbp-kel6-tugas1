@@ -82,7 +82,6 @@ public class BusManager {
         }
         System.out.println(" - ".repeat(50));
 
-        // Pilih bus
         System.out.print("Pilih nomor bus (1-" + busTersedia.size() + "): ");
         int pilihan = scanner.nextInt() - 1;
         scanner.nextLine();
@@ -102,7 +101,6 @@ public class BusManager {
         System.out.println("Tanggal        : " + bus.getTanggalKeberangkatan());
         System.out.println("Kapasitas      : " + bus.getKursiTersedia() + " kursi tersedia dari " + bus.getKapasitas());
 
-        // Input jumlah kursi yang ingin dipesan
         int jumlahKursi = 0;
         while (true) {
             System.out.print("\nMau pesan berapa kursi? (1-" + bus.getKursiTersedia() + "): ");
@@ -118,19 +116,16 @@ public class BusManager {
             }
         }
 
-        // Pilih nomor kursi dan nama penumpang untuk setiap kursi
         ArrayList<Integer> daftarKursiDipilih = new ArrayList<>();
         ArrayList<String> daftarNamaPenumpang = new ArrayList<>();
         
         for (int i = 1; i <= jumlahKursi; i++) {
             System.out.println("\n--- Penumpang ke-" + i + " ---");
             
-            // Input nama penumpang
             System.out.print("Nama penumpang: ");
             String namaPenumpang = scanner.nextLine();
             daftarNamaPenumpang.add(namaPenumpang);
             
-            // Input nomor kursi
             int kursi = -1;
             while (true) {
                 System.out.print("Nomor kursi (1-" + bus.getKapasitas() + "): ");
@@ -244,7 +239,6 @@ public class BusManager {
         System.out.println("-".repeat(100));
 
         for (Transaksi t : daftarTransaksi) {
-            // Tampilkan nama pertama atau jumlah penumpang
             String namaPenumpang = t.getJumlahKursi() == 1 
                 ? t.getDaftarNamaPenumpang().get(0) 
                 : t.getDaftarNamaPenumpang().get(0) + " +(" + (t.getJumlahKursi() - 1) + ")";
@@ -288,14 +282,13 @@ public class BusManager {
         } catch (NumberFormatException e) {
             System.out.println("Input harus angka! Silakan coba lagi.");
         }
-    } //=====perubahan======
+    }
 
     String tanggal = "";
     while (true) {
         System.out.print("Tanggal keberangkatan (YYYY-MM-DD): ");
         tanggal = scanner.nextLine();
         try {
-            // cek format tanggal
             LocalDate.parse(tanggal, DateTimeFormatter.ISO_LOCAL_DATE);
             break;
         } catch (DateTimeParseException e) {
@@ -314,7 +307,6 @@ public class BusManager {
         }
     }
 
-    // Tambahkan bus baru ke daftar
     Bus busBaru = new Bus(namaBus, jenisBus, asal, tujuan, harga, tanggal, kapasitas);
     daftarBus.add(busBaru);
 
