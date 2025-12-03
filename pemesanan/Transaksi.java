@@ -1,19 +1,21 @@
 package pemesanan;
 
+import java.util.ArrayList;
+
 public class Transaksi {
     private String namaPelanggan;
     private Bus busDipilih;
-    private int nomorKursi;
+    private ArrayList<Integer> daftarKursi;
     private boolean paketMakan;
     private double totalHarga;
     private double pajak;
     private String idTransaksi;
     private String tanggalKeberangkatan;
 
-    public Transaksi(String nama, Bus bus, int kursi, boolean makan, String id, String tanggalKeberangkatan) {
+    public Transaksi(String nama, Bus bus, ArrayList<Integer> kursiList, boolean makan, String id, String tanggalKeberangkatan) {
         this.namaPelanggan = nama;
         this.busDipilih = bus;
-        this.nomorKursi = kursi;
+        this.daftarKursi = new ArrayList<>(kursiList);
         this.paketMakan = makan;
         this.idTransaksi = id;
         this.tanggalKeberangkatan = tanggalKeberangkatan;
@@ -44,7 +46,7 @@ public class Transaksi {
     }
 
     public int getNomorKursi() {
-        return nomorKursi;
+        return daftarKursi.isEmpty() ? 0 : daftarKursi.get(0);
     }
 
     public boolean isPaketMakan() {
