@@ -56,7 +56,7 @@ public class BusManager {
         System.out.println(" - ".repeat(50));
     }
 
-    // ESAN TIKET LANGSUNG 
+    // PESAN TIKET LANGSUNG
     public void pesanTiketLangsung() {
         System.out.println("\n--- PESAN TIKET LANGSUNG ---");
         showBus();
