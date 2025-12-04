@@ -18,8 +18,8 @@ public class PemesananTiketTransportasi {
                 case 2 -> manager.pesanTiketLangsung();
                 case 3 -> manager.cariRute();
                 case 4 -> manager.showDaftarTrx();
-                case 5 -> System.out.println("Terima kasih telah menggunakan layanan kami");
-                case 6 -> manager.tambahBus();
+                case 5 -> manager.tambahBus();
+                case 6 -> System.out.println("Terima kasih telah menggunakan layanan kami");
                 default -> System.out.println("Invalid input");
             }
         } while (!manager.isExit(pilihan));
