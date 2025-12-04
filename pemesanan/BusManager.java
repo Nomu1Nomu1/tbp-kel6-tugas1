@@ -55,24 +55,39 @@ public class BusManager {
     public void pesanTiket() {
         System.out.println("\n--- PROSES PEMESANAN TIKET ---");
 
-        System.out.println("Masukkan tanggal keberangkatan (YYYY-MM-DD): ");
-        String tanggalKeberangkatan = scanner.nextLine();
+        LocalDate tanggalDipilih = null;
+        while (true) {
+            System.out.print("Masukkan tanggal keberangkatan (YYYY-MM-DD): ");
+            String inputTanggal = scanner.nextLine();
+            
+            try {
+                tanggalDipilih = LocalDate.parse(inputTanggal, DateTimeFormatter.ISO_LOCAL_DATE);
+                
+                LocalDate today = LocalDate.now();
+                if (tanggalDipilih.isBefore(today.plusDays(1))) {
+                    System.out.println("Tanggal keberangkatan harus minimal H-1 dari hari ini (" + today.plusDays(1) + ")!");
+                    continue;
+                }
+                break;
+            } catch (DateTimeParseException e) {
+                System.out.println("Format tanggal salah! Gunakan format YYYY-MM-DD.");
+            }
+        }
 
-        LocalDate today = LocalDate.now();
         ArrayList<Bus> busTersedia = new ArrayList<>();
         for (Bus b : daftarBus) {
             LocalDate tanggalBus = LocalDate.parse(b.getTanggalKeberangkatan());
-            if (!tanggalBus.isBefore(today.plusDays(1)) && b.getKursiTersedia() > 0) {
+            if (tanggalBus.equals(tanggalDipilih) && b.getKursiTersedia() > 0) {
                 busTersedia.add(b);
             }
         }
 
         if (busTersedia.isEmpty()) {
-            System.out.println("Maaf, tidak ada bus tersedia minimal H+1 dari sekarang.");
+            System.out.println("Maaf, tidak ada bus tersedia pada tanggal " + tanggalDipilih + ".");
             return;
         }
 
-        System.out.println("\nDaftar Bus Tersedia (H+1 ke atas):");
+        System.out.println("\nDaftar Bus Tersedia pada tanggal " + tanggalDipilih + ":");
         System.out.println(" - ".repeat(50));
         System.out.printf("%-3s %-15s %-12s %-10s %-12s %-12s %-10s %-10s%n",
                 "No", "Nama Bus", "Jenis", "Asal", "Tujuan", "Harga", "Tanggal", "Sisa Kursi");
@@ -260,58 +275,68 @@ public class BusManager {
     }
 
     public void tambahBus() {
-    System.out.println("\n--- TAMBAH BUS BARU ---");
-    System.out.print("Nama Bus: ");
-    String namaBus = scanner.nextLine();
+        System.out.println("\n--- TAMBAH BUS BARU ---");
+        System.out.print("Nama Bus: ");
+        String namaBus = scanner.nextLine();
 
-    System.out.print("Jenis Bus (Ekonomi/Sleeper/Eksekutif): ");
-    String jenisBus = scanner.nextLine();
-
-    System.out.print("Asal Keberangkatan: ");
-    String asal = scanner.nextLine();
-
-    System.out.print("Tujuan Keberangkatan: ");
-    String tujuan = scanner.nextLine();
-
-    double harga = 0;
-    while (true) {
-        System.out.print("Harga tiket: ");
-        try {
-            harga = Double.parseDouble(scanner.nextLine().trim());
-            break;
-        } catch (NumberFormatException e) {
-            System.out.println("Input harus angka! Silakan coba lagi.");
+        String jenisBus = "";
+        while (true) {
+            System.out.print("Jenis Bus (Ekonomi/Sleeper/Eksekutif): ");
+            String input = scanner.nextLine().toLowerCase();
+            
+            if (input.equals("ekonomi") || input.equals("sleeper") || input.equals("eksekutif")) {
+                jenisBus = input.substring(0, 1).toUpperCase() + input.substring(1);
+                break;
+            } else {
+                System.out.println("Jenis bus tidak valid! Pilih: Ekonomi, Sleeper, atau Eksekutif.");
+            }
         }
-    }
 
-    String tanggal = "";
-    while (true) {
-        System.out.print("Tanggal keberangkatan (YYYY-MM-DD): ");
-        tanggal = scanner.nextLine();
-        try {
-            LocalDate.parse(tanggal, DateTimeFormatter.ISO_LOCAL_DATE);
-            break;
-        } catch (DateTimeParseException e) {
-            System.out.println("Format tanggal salah! Gunakan YYYY-MM-DD.");
+        System.out.print("Asal Keberangkatan: ");
+        String asal = scanner.nextLine();
+
+        System.out.print("Tujuan Keberangkatan: ");
+        String tujuan = scanner.nextLine();
+
+        double harga = 0;
+        while (true) {
+            System.out.print("Harga tiket: ");
+            try {
+                harga = Double.parseDouble(scanner.nextLine().trim());
+                break;
+            } catch (NumberFormatException e) {
+                System.out.println("Input harus angka! Silakan coba lagi.");
+            }
         }
-    }
 
-    int kapasitas = 0;
-    while (true) {
-        System.out.print("Kapasitas bus: ");
-        try {
-            kapasitas = Integer.parseInt(scanner.nextLine().trim());
-            if (kapasitas > 0) break;
-        } catch (NumberFormatException e) {
-            System.out.println("Input harus angka! Silakan coba lagi.");
+        String tanggal = "";
+        while (true) {
+            System.out.print("Tanggal keberangkatan (YYYY-MM-DD): ");
+            tanggal = scanner.nextLine();
+            try {
+                LocalDate.parse(tanggal, DateTimeFormatter.ISO_LOCAL_DATE);
+                break;
+            } catch (DateTimeParseException e) {
+                System.out.println("Format tanggal salah! Gunakan YYYY-MM-DD.");
+            }
         }
+
+        int kapasitas = 0;
+        while (true) {
+            System.out.print("Kapasitas bus: ");
+            try {
+                kapasitas = Integer.parseInt(scanner.nextLine().trim());
+                if (kapasitas > 0) break;
+            } catch (NumberFormatException e) {
+                System.out.println("Input harus angka! Silakan coba lagi.");
+            }
+        }
+
+        Bus busBaru = new Bus(namaBus, jenisBus, asal, tujuan, harga, tanggal, kapasitas);
+        daftarBus.add(busBaru);
+
+        System.out.println("Bus baru berhasil ditambahkan!");
     }
-
-    Bus busBaru = new Bus(namaBus, jenisBus, asal, tujuan, harga, tanggal, kapasitas);
-    daftarBus.add(busBaru);
-
-    System.out.println("Bus baru berhasil ditambahkan!");
-}
 
     public Scanner getScanner() {
         return scanner;
