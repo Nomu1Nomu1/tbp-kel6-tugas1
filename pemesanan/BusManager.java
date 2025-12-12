@@ -60,13 +60,14 @@ public class BusManager {
         while (true) {
             System.out.print("Masukkan tanggal keberangkatan (YYYY-MM-DD): ");
             String inputTanggal = scanner.nextLine();
-            
+
             try {
                 tanggalDipilih = LocalDate.parse(inputTanggal, DateTimeFormatter.ISO_LOCAL_DATE);
-                
+
                 LocalDate today = LocalDate.now();
                 if (tanggalDipilih.isBefore(today.plusDays(1))) {
-                    System.out.println("Tanggal keberangkatan harus minimal H-1 dari hari ini (" + today.plusDays(1) + ")!");
+                    System.out.println(
+                            "Tanggal keberangkatan harus minimal H-1 dari hari ini (" + today.plusDays(1) + ")!");
                     continue;
                 }
                 break;
@@ -123,7 +124,8 @@ public class BusManager {
             try {
                 jumlahKursi = Integer.parseInt(scanner.nextLine().trim());
                 if (jumlahKursi < 1 || jumlahKursi > bus.getKursiTersedia()) {
-                    System.out.println("Jumlah kursi tidak valid! Maksimal " + bus.getKursiTersedia() + " kursi tersedia.");
+                    System.out.println(
+                            "Jumlah kursi tidak valid! Maksimal " + bus.getKursiTersedia() + " kursi tersedia.");
                     continue;
                 }
                 break;
@@ -134,14 +136,14 @@ public class BusManager {
 
         ArrayList<Integer> daftarKursiDipilih = new ArrayList<>();
         ArrayList<String> daftarNamaPenumpang = new ArrayList<>();
-        
+
         for (int i = 1; i <= jumlahKursi; i++) {
             System.out.println("\n--- Penumpang ke-" + i + " ---");
-            
+
             System.out.print("Nama penumpang: ");
             String namaPenumpang = scanner.nextLine();
             daftarNamaPenumpang.add(namaPenumpang);
-            
+
             int kursi = -1;
             while (true) {
                 System.out.print("Nomor kursi (1-" + bus.getKapasitas() + "): ");
@@ -156,12 +158,12 @@ public class BusManager {
                     System.out.println("Kursi tidak tersedia atau nomor tidak valid! Pilih lagi.");
                     continue;
                 }
-                
+
                 if (daftarKursiDipilih.contains(kursi)) {
                     System.out.println("Kursi sudah dipilih sebelumnya! Pilih kursi lain.");
                     continue;
                 }
-                
+
                 daftarKursiDipilih.add(kursi);
                 break;
             }
@@ -185,7 +187,8 @@ public class BusManager {
             System.out.println((i + 1) + ". " + daftarNamaPenumpang.get(i) + " - Kursi " + daftarKursiDipilih.get(i));
         }
         System.out.println("\nPaket Makan    : " + (paketMakan ? "Ya (Rp35.000 x " + jumlahKursi + ")" : "Tidak"));
-        System.out.printf("Harga Tiket    : Rp%,.0f x %d = Rp%,.0f%n", bus.getHarga(), jumlahKursi, bus.getHarga() * jumlahKursi);
+        System.out.printf("Harga Tiket    : Rp%,.0f x %d = Rp%,.0f%n", bus.getHarga(), jumlahKursi,
+                bus.getHarga() * jumlahKursi);
         System.out.printf("Paket Makan    : Rp%,.0f%n", hargaMakan);
         System.out.printf("Pajak (11%%)    : Rp%,.0f%n", pajak);
         System.out.println("=".repeat(40));
@@ -198,9 +201,10 @@ public class BusManager {
             for (int kursi : daftarKursiDipilih) {
                 bus.pesanKursi(kursi);
             }
-            
+
             String id = "TKT" + idCounter++;
-            Transaksi t = new Transaksi(daftarNamaPenumpang, bus, daftarKursiDipilih, paketMakan, id, bus.getTanggalKeberangkatan());
+            Transaksi t = new Transaksi(daftarNamaPenumpang, bus, daftarKursiDipilih, paketMakan, id,
+                    bus.getTanggalKeberangkatan());
             daftarTransaksi.add(t);
             showNota(t);
             System.out.println("\nPemesanan berhasil!");
@@ -221,7 +225,8 @@ public class BusManager {
                 if (!tgl.isBefore(tomorrow) && b.getKursiTersedia() > 0) {
                     busAktif.add(b);
                 }
-            } catch (Exception ignored) {}
+            } catch (Exception ignored) {
+            }
         }
 
         if (busAktif.isEmpty()) {
@@ -230,15 +235,17 @@ public class BusManager {
         }
 
         String asal = pilihKota("Kota asal: ", dapatkanKotaAsal(busAktif));
-        if (asal == null) return;
+        if (asal == null)
+            return;
 
         String tujuan = pilihKota("Kota tujuan: ", dapatkanKotaTujuan(busAktif, asal));
-        if (tujuan == null) return;
+        if (tujuan == null)
+            return;
 
         ArrayList<Bus> hasil = new ArrayList<>();
         for (Bus b : busAktif) {
             if (b.getAsalKeberangkatan().equalsIgnoreCase(asal) &&
-                b.getTujuan().equalsIgnoreCase(tujuan)) {
+                    b.getTujuan().equalsIgnoreCase(tujuan)) {
                 hasil.add(b);
             }
         }
@@ -257,7 +264,7 @@ public class BusManager {
         for (int i = 0; i < hasil.size(); i++) {
             Bus b = hasil.get(i);
             System.out.printf("%-3d %-15s %-12s Rp%,-10.0f %-12s %d/%d%n",
-                    (i+1), b.getNamaBus(), b.getJenisBus(), b.getHarga(),
+                    (i + 1), b.getNamaBus(), b.getJenisBus(), b.getHarga(),
                     b.getTanggalKeberangkatan(), b.getKursiTersedia(), b.getKapasitas());
         }
         System.out.println("-".repeat(80));
@@ -266,8 +273,10 @@ public class BusManager {
         int pilih;
         try {
             pilih = Integer.parseInt(scanner.nextLine().trim());
-            if (pilih == 0) return;
-            if (pilih < 1 || pilih > hasil.size()) throw new Exception();
+            if (pilih == 0)
+                return;
+            if (pilih < 1 || pilih > hasil.size())
+                throw new Exception();
         } catch (Exception e) {
             System.out.println("Pilihan tidak valid!");
             return;
@@ -288,7 +297,8 @@ public class BusManager {
             try {
                 jumlahKursi = Integer.parseInt(scanner.nextLine().trim());
                 if (jumlahKursi < 1 || jumlahKursi > bus.getKursiTersedia()) {
-                    System.out.println("Jumlah kursi tidak valid! Maksimal " + bus.getKursiTersedia() + " kursi tersedia.");
+                    System.out.println(
+                            "Jumlah kursi tidak valid! Maksimal " + bus.getKursiTersedia() + " kursi tersedia.");
                     continue;
                 }
                 break;
@@ -299,14 +309,14 @@ public class BusManager {
 
         ArrayList<Integer> daftarKursiDipilih = new ArrayList<>();
         ArrayList<String> daftarNamaPenumpang = new ArrayList<>();
-        
+
         for (int i = 1; i <= jumlahKursi; i++) {
             System.out.println("\n--- Penumpang ke-" + i + " ---");
-            
+
             System.out.print("Nama penumpang: ");
             String namaPenumpang = scanner.nextLine();
             daftarNamaPenumpang.add(namaPenumpang);
-            
+
             int kursi = -1;
             while (true) {
                 System.out.print("Nomor kursi (1-" + bus.getKapasitas() + "): ");
@@ -321,12 +331,12 @@ public class BusManager {
                     System.out.println("Kursi tidak tersedia atau nomor tidak valid! Pilih lagi.");
                     continue;
                 }
-                
+
                 if (daftarKursiDipilih.contains(kursi)) {
                     System.out.println("Kursi sudah dipilih sebelumnya! Pilih kursi lain.");
                     continue;
                 }
-                
+
                 daftarKursiDipilih.add(kursi);
                 break;
             }
@@ -351,7 +361,8 @@ public class BusManager {
             System.out.println((i + 1) + ". " + daftarNamaPenumpang.get(i) + " - Kursi " + daftarKursiDipilih.get(i));
         }
         System.out.println("\nPaket Makan    : " + (paketMakan ? "Ya (Rp35.000 x " + jumlahKursi + ")" : "Tidak"));
-        System.out.printf("Harga Tiket    : Rp%,.0f x %d = Rp%,.0f%n", bus.getHarga(), jumlahKursi, bus.getHarga() * jumlahKursi);
+        System.out.printf("Harga Tiket    : Rp%,.0f x %d = Rp%,.0f%n", bus.getHarga(), jumlahKursi,
+                bus.getHarga() * jumlahKursi);
         System.out.printf("Paket Makan    : Rp%,.0f%n", hargaMakan);
         System.out.printf("Pajak (11%%)    : Rp%,.0f%n", pajak);
         System.out.println("=".repeat(40));
@@ -364,9 +375,10 @@ public class BusManager {
             for (int kursi : daftarKursiDipilih) {
                 bus.pesanKursi(kursi);
             }
-            
+
             String id = "TKT" + idCounter++;
-            Transaksi t = new Transaksi(daftarNamaPenumpang, bus, daftarKursiDipilih, paketMakan, id, bus.getTanggalKeberangkatan());
+            Transaksi t = new Transaksi(daftarNamaPenumpang, bus, daftarKursiDipilih, paketMakan, id,
+                    bus.getTanggalKeberangkatan());
             daftarTransaksi.add(t);
             showNota(t);
             System.out.println("\nPemesanan berhasil!");
@@ -379,11 +391,13 @@ public class BusManager {
         while (true) {
             System.out.print(prompt);
             String input = scanner.nextLine().trim();
-            if (input.isEmpty() || input.equalsIgnoreCase("0")) return null;
+            if (input.isEmpty() || input.equalsIgnoreCase("0"))
+                return null;
 
             ArrayList<String> cocok = new ArrayList<>();
             for (String k : daftar) {
-                if (k.toLowerCase().contains(input.toLowerCase())) cocok.add(k);
+                if (k.toLowerCase().contains(input.toLowerCase()))
+                    cocok.add(k);
             }
 
             if (cocok.isEmpty()) {
@@ -397,13 +411,15 @@ public class BusManager {
 
             System.out.println("Pilih kota:");
             for (int i = 0; i < cocok.size(); i++)
-                System.out.println((i+1) + ". " + cocok.get(i));
+                System.out.println((i + 1) + ". " + cocok.get(i));
 
             System.out.print("Nomor: ");
             try {
                 int p = Integer.parseInt(scanner.nextLine());
-                if (p > 0 && p <= cocok.size()) return cocok.get(p-1);
-            } catch (Exception ignored) {}
+                if (p > 0 && p <= cocok.size())
+                    return cocok.get(p - 1);
+            } catch (Exception ignored) {
+            }
         }
     }
 
@@ -419,7 +435,7 @@ public class BusManager {
         ArrayList<String> kota = new ArrayList<>();
         for (Bus b : list) {
             if (b.getAsalKeberangkatan().equalsIgnoreCase(asal) &&
-                !kota.contains(b.getTujuan()))
+                    !kota.contains(b.getTujuan()))
                 kota.add(b.getTujuan());
         }
         return kota;
@@ -444,11 +460,12 @@ public class BusManager {
         }
         System.out.println("\nPaket Makan    : " + (t.isPaketMakan() ? "Ya" : "Tidak"));
         System.out.println("-".repeat(50));
-        System.out.printf("Harga Dasar    : Rp%,.0f x %d = Rp%,.0f%n", 
+        System.out.printf("Harga Dasar    : Rp%,.0f x %d = Rp%,.0f%n",
                 t.getBusDipilih().getHarga(), t.getJumlahKursi(), t.getBusDipilih().getHarga() * t.getJumlahKursi());
         System.out.printf("Paket Makan    : Rp%,.0f%n", t.isPaketMakan() ? 35000.0 * t.getJumlahKursi() : 0.0);
         System.out.printf("Subtotal       : Rp%,.0f%n",
-                (t.getBusDipilih().getHarga() * t.getJumlahKursi()) + (t.isPaketMakan() ? 35000.0 * t.getJumlahKursi() : 0.0));
+                (t.getBusDipilih().getHarga() * t.getJumlahKursi())
+                        + (t.isPaketMakan() ? 35000.0 * t.getJumlahKursi() : 0.0));
         System.out.printf("Pajak (11%%)    : Rp%,.0f%n", t.getPajak());
         System.out.println("=".repeat(50));
         System.out.printf("TOTAL BAYAR    : Rp%,.0f%n", t.getTotal());
@@ -462,32 +479,92 @@ public class BusManager {
             return;
         }
 
-        System.out.println("\n" + "-".repeat(100));
-        System.out.println("DAFTAR TRANSAKSI");
-        System.out.println("-".repeat(100));
-        System.out.printf("%-10s %-20s %-12s %-20s %-15s %-12s%n",
-                "ID", "Penumpang", "Bus", "Rute", "Kursi", "Total");
-        System.out.println("-".repeat(100));
+        while (true) {
+            System.out.println("\n" + "=".repeat(100));
+            System.out.println("                   DAFTAR TRANSAKSI");
+            System.out.println("=".repeat(100));
+            System.out.printf("%-6s %-12s %-20s %-20s %-12s %-15s%n",
+                    "No", "ID Transaksi", "Tanggal", "Bus", "Penumpang", "Total Bayar");
+            System.out.println("-".repeat(100));
 
-        for (Transaksi t : daftarTransaksi) {
-            String namaPenumpang = t.getJumlahKursi() == 1 
-                ? t.getDaftarNamaPenumpang().get(0) 
-                : t.getDaftarNamaPenumpang().get(0) + " +(" + (t.getJumlahKursi() - 1) + ")";
-            
-            String kursiInfo = t.getJumlahKursi() == 1 
-                ? String.valueOf(t.getDaftarKursi().get(0)) 
-                : t.getJumlahKursi() + " kursi";
-            
-            System.out.printf("%-10s %-20s %-12s %-20s %-15s Rp%,-10.0f%n",
-                    t.getIdTransaksi(),
-                    namaPenumpang.length() > 18 ? namaPenumpang.substring(0, 18) + ".." : namaPenumpang,
-                    t.getBusDipilih().getNamaBus().length() > 10
-                            ? t.getBusDipilih().getNamaBus().substring(0, 10) + ".."
-                            : t.getBusDipilih().getNamaBus(),
-                    t.getRute(), kursiInfo, t.getTotal());
+            for (int i = 0; i < daftarTransaksi.size(); i++) {
+                Transaksi t = daftarTransaksi.get(i);
+                Bus b = t.getBusDipilih();
+
+                String namaInfo = t.getJumlahKursi() == 1
+                        // Jika hanya 1 penumpang
+                        ? t.getDaftarNamaPenumpang().get(0)
+                        : t.getDaftarNamaPenumpang().get(0) + " + " + (t.getJumlahKursi() - 1) + " lain";
+
+                System.out.printf("%-6d %-12s %-20s %-20s %-12d Rp%,-15.0f%n",
+                        (i + 1),
+                        t.getIdTransaksi(),
+                        t.getTanggalKeberangkatan(),
+                        (b.getNamaBus().length() > 18 ? b.getNamaBus().substring(0, 16) + ".." : b.getNamaBus()),
+                        t.getJumlahKursi(),
+                        t.getTotal());
+            }
+            System.out.println("-".repeat(100));
+
+            System.out.print("\nPilih nomor transaksi untuk melihat detail (0 = kembali): ");
+            int pilihan;
+            try {
+                pilihan = Integer.parseInt(scanner.nextLine().trim());
+                if (pilihan == 0)
+                    return;
+                if (pilihan < 1 || pilihan > daftarTransaksi.size()) {
+                    System.out.println("Nomor tidak valid!");
+                    continue;
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Input harus angka!");
+                continue;
+            }
+
+            // Tampilkan detail transaksi lengkap (mirip nota)
+            Transaksi trx = daftarTransaksi.get(pilihan - 1);
+            tampilkanDetailTransaksi(trx);
+
+            System.out.print("\nTekan Enter untuk kembali ke daftar transaksi...");
+            scanner.nextLine();
         }
-        System.out.println("-".repeat(100));
-        System.out.println("Total transaksi: " + daftarTransaksi.size());
+    }
+
+    private void tampilkanDetailTransaksi(Transaksi t) {
+        System.out.println("\n" + "=".repeat(60));
+        System.out.println("                DETAIL TRANSAKSI");
+        System.out.println("=".repeat(60));
+        System.out.println("ID Transaksi       : " + t.getIdTransaksi());
+        System.out.println("Tanggal Keberangkatan : " + t.getTanggalKeberangkatan());
+        System.out.println("Bus                : " + t.getBusDipilih().getNamaBus());
+        System.out.println("Jenis Bus          : " + t.getBusDipilih().getJenisBus());
+        System.out.println("Rute               : " + t.getBusDipilih().getAsalKeberangkatan() + " -> "
+                + t.getBusDipilih().getTujuan());
+        System.out.println("Jumlah Penumpang   : " + t.getJumlahKursi() + " orang");
+        System.out.println("-".repeat(60));
+
+        System.out.println("DAFTAR PENUMPANG:");
+        for (int i = 0; i < t.getDaftarNamaPenumpang().size(); i++) {
+            System.out.printf("  %d. %-25s Kursi %-3d%n",
+                    (i + 1),
+                    t.getDaftarNamaPenumpang().get(i),
+                    t.getDaftarKursi().get(i));
+        }
+
+        System.out.println("-".repeat(60));
+        System.out.println("Paket Makan        : " + (t.isPaketMakan() ? "Ya (Rp35.000/orang)" : "Tidak"));
+        System.out.println("-".repeat(60));
+        System.out.printf("Harga Tiket        : Rp%,.0f x %d = Rp%,.0f%n",
+                t.getBusDipilih().getHarga(), t.getJumlahKursi(), t.getBusDipilih().getHarga() * t.getJumlahKursi());
+        System.out.printf("Biaya Makan        : Rp%,.0f%n", t.isPaketMakan() ? 35000.0 * t.getJumlahKursi() : 0.0);
+        System.out.printf("Subtotal           : Rp%,.0f%n",
+                t.getBusDipilih().getHarga() * t.getJumlahKursi()
+                        + (t.isPaketMakan() ? 35000.0 * t.getJumlahKursi() : 0.0));
+        System.out.printf("Pajak 11%%          : Rp%,.0f%n", t.getPajak());
+        System.out.println("=".repeat(60));
+        System.out.printf("TOTAL BAYAR        : Rp%,.0f%n", t.getTotal());
+        System.out.println("=".repeat(60));
+        System.out.println("Terima kasih telah menggunakan SiBuder OO!");
     }
 
     public void tambahBus() {
@@ -499,7 +576,7 @@ public class BusManager {
         while (true) {
             System.out.print("Jenis Bus (Ekonomi/Sleeper/Eksekutif): ");
             String input = scanner.nextLine().toLowerCase();
-            
+
             if (input.equals("ekonomi") || input.equals("sleeper") || input.equals("eksekutif")) {
                 jenisBus = input.substring(0, 1).toUpperCase() + input.substring(1);
                 break;
@@ -542,7 +619,8 @@ public class BusManager {
             System.out.print("Kapasitas bus: ");
             try {
                 kapasitas = Integer.parseInt(scanner.nextLine().trim());
-                if (kapasitas > 0) break;
+                if (kapasitas > 0)
+                    break;
             } catch (NumberFormatException e) {
                 System.out.println("Input harus angka! Silakan coba lagi.");
             }
